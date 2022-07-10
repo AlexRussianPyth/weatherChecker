@@ -1,6 +1,8 @@
 
 # Virtual Environment
 venv/
+.env
 
 # Pycharm
 .idea/
+__pycache__/

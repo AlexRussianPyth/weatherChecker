@@ -1,5 +1,6 @@
 from geopy.geocoders import Nominatim
 
+
 def get_coordinates(query: str) -> dict:
     """Function use string query to achieve address and geo coordinates of place"""
     locator = Nominatim(user_agent="GetLoc")
@@ -7,6 +8,7 @@ def get_coordinates(query: str) -> dict:
     # entering the location name
     get_loc = locator.geocode(query)
 
+    # TODO: Add dataclass
     location = {
         'address': get_loc.address,
         'lat': get_loc.latitude,
@@ -14,10 +16,3 @@ def get_coordinates(query: str) -> dict:
     }
 
     return location
-
-
-
-
-
-
-
