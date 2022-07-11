@@ -8,7 +8,6 @@ def main():
     # Get geographical coordinates by query
     location = get_coordinates(query)
     weather = get_weather(location)
-
     print(weather)
 
 

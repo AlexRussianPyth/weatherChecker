@@ -36,13 +36,8 @@ class Weather(NamedTuple):
 
 
 def get_weather(location: Coordinate) -> Weather:
-    # Request response from OpenWeather API by geolocation
-    params = {
-        'lat': location.latitude,
-        'lon': location.longitude,
-        'appid': API_KEY,
-    }
-    response = requests.get(url, params=params).json()
+
+    response = _get_openweather_response(location)
 
     return Weather(
         temperature=response['main']['temp'],
@@ -51,3 +46,17 @@ def get_weather(location: Coordinate) -> Weather:
         sunset=response['sys']['sunset'],
         city=response['name'],
     )
+
+def _get_openweather_response(location: Coordinate) -> dict:
+    """Get weather json from OpenWeather API"""
+    # Request response from OpenWeather API by geolocation
+    params = {
+        'lat': location.latitude,
+        'lon': location.longitude,
+        'appid': API_KEY,
+    }
+    response = requests.get(url, params=params).json()
+
+    return response
+
+
