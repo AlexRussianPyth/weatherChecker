@@ -1,5 +1,8 @@
 from geopy.geocoders import Nominatim
+from geopy.exc import GeopyError
 from pydantic import BaseModel
+
+from exceptions import CantGetCoordinates
 
 
 class Coordinate(BaseModel):
@@ -12,6 +15,9 @@ def get_coordinates(query: str) -> Coordinate:
     locator = Nominatim(user_agent="GetLoc")
 
     # entering the location name
-    get_loc = locator.geocode(query)
+    try:
+        get_loc = locator.geocode(query)
+    except GeopyError:
+        raise CantGetCoordinates
 
     return Coordinate(latitude=get_loc.latitude, longitude=get_loc.longitude)
