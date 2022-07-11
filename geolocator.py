@@ -14,6 +14,4 @@ def get_coordinates(query: str) -> Coordinate:
     # entering the location name
     get_loc = locator.geocode(query)
 
-    location = Coordinate(latitude=get_loc.latitude, longitude=get_loc.longitude)
-
-    return location
+    return Coordinate(latitude=get_loc.latitude, longitude=get_loc.longitude)
