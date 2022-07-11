@@ -1,6 +1,7 @@
 import os
 import pathlib
 from datetime import datetime
+from enum import Enum
 from typing import NamedTuple
 
 import requests
@@ -15,9 +16,20 @@ url = 'https://api.openweathermap.org/data/2.5/weather'
 
 Celsius = int
 
+
+class WeatherType(Enum):
+    THUNDERSTORM = 'Гроза'
+    DRIZZLE = 'Изморозь'
+    RAIN = 'Дождь'
+    SNOW = 'Снег'
+    CLEAR = 'Ясно'
+    FOG = 'Туман'
+    CLOUDS = 'Облачно'
+
+
 class Weather(NamedTuple):
     temperature: Celsius
-    weather_type: str
+    weather_type: WeatherType
     sunrise: datetime
     sunset: datetime
     city: str
@@ -30,6 +42,12 @@ def get_weather(location: Coordinate) -> Weather:
         'lon': location.longitude,
         'appid': API_KEY,
     }
-    response = requests.get(url, params=params)
+    response = requests.get(url, params=params).json()
 
-    return response
+    return Weather(
+        temperature=response['main']['temp'],
+        weather_type=WeatherType.RAIN,
+        sunrise=response['sys']['sunrise'],
+        sunset=response['sys']['sunset'],
+        city=response['name'],
+    )

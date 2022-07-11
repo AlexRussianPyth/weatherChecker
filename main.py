@@ -9,7 +9,7 @@ def main():
     location = get_coordinates(query)
     weather = get_weather(location)
 
-    print(weather.json())
+    print(weather)
 
 
 if __name__ == '__main__':
