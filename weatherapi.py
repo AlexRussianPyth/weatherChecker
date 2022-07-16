@@ -11,7 +11,7 @@ from geolocator import Coordinate
 
 load_dotenv(os.path.join(pathlib.Path(__file__).parent.absolute(), '.env'))
 
-API_KEY = os.getenv('API_KEY')
+API_KEY = os.getenv('OPENWEATHER_API_KEY')
 url = 'https://api.openweathermap.org/data/2.5/weather'
 
 Celsius = int
