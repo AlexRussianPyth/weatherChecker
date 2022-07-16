@@ -2,7 +2,7 @@ from geopy.geocoders import Nominatim
 from geopy.exc import GeopyError
 from pydantic import BaseModel
 
-from exceptions import CantGetCoordinates
+from weather.exceptions import CantGetCoordinates
 
 
 class Coordinate(BaseModel):

@@ -7,9 +7,9 @@ from typing import NamedTuple
 import requests
 from dotenv import load_dotenv
 
-from geolocator import Coordinate
+from weather.geolocator import Coordinate
 
-load_dotenv(os.path.join(pathlib.Path(__file__).parent.absolute(), '.env'))
+load_dotenv(os.path.join(pathlib.Path(__file__).parent.absolute(), '../.env'))
 
 API_KEY = os.getenv('OPENWEATHER_API_KEY')
 url = 'https://api.openweathermap.org/data/2.5/weather'
@@ -35,9 +35,15 @@ class Weather(NamedTuple):
     city: str
 
 
-def get_weather(location: Coordinate) -> Weather:
+def get_current_weather(location: Coordinate) -> Weather:
 
-    response = _get_openweather_response(location)
+    params = {
+        'lat': location.latitude,
+        'lon': location.longitude,
+        'appid': API_KEY,
+    }
+
+    response = _get_openweather_response(params)
 
     return Weather(
         temperature=response['main']['temp'],
@@ -47,16 +53,17 @@ def get_weather(location: Coordinate) -> Weather:
         city=response['name'],
     )
 
-def _get_openweather_response(location: Coordinate) -> dict:
-    """Get weather json from OpenWeather API"""
-    # Request response from OpenWeather API by geolocation
+
+def get_weather_day_forecast(location: Coordinate) -> Weather:
     params = {
         'lat': location.latitude,
         'lon': location.longitude,
-        'appid': API_KEY,
     }
+
+
+def _get_openweather_response(params: dict) -> dict:
+    """Get weather JSON from OpenWeather API"""
     response = requests.get(url, params=params).json()
 
     return response
-
 

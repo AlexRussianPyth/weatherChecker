@@ -1,5 +1,5 @@
-from geolocator import get_coordinates
-from weatherapi import get_weather
+from weather.geolocator import get_coordinates
+from weather.weatherapi import get_current_weather
 
 query = 'Engels'
 
@@ -7,7 +7,7 @@ query = 'Engels'
 def main():
     # Get geographical coordinates by query
     location = get_coordinates(query)
-    weather = get_weather(location)
+    weather = get_current_weather(location)
     print(weather)
 
 
