@@ -1,8 +1,5 @@
 run:
-	python3 main.py
-
-fastapi:
-	python3 api/main.py
+	python3 script.py
 
 req:
 	pip3 install -r requirements.txt

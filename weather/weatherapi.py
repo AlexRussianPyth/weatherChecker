@@ -1,7 +1,8 @@
 from datetime import datetime
-from typing import NamedTuple, List
+from typing import List
 
 import requests
+from pydantic import BaseModel
 
 from weather.geolocator import Coordinate
 from weather.config import OPENWEATHER_API_KEY
@@ -9,8 +10,9 @@ from weather.config import OPENWEATHER_API_KEY
 
 Celsius = int
 
+
 # TODO Add unit tests for this module
-class Weather(NamedTuple):
+class Weather(BaseModel):
     temperature: Celsius
     weather_type: str
     sunrise: datetime
@@ -28,7 +30,7 @@ def get_current_weather(location: Coordinate) -> Weather:
         'appid': OPENWEATHER_API_KEY,
     }
 
-    response = _get_openweather_response_json(params)
+    response = _get_openweather_response_json(url, params)
 
     return Weather(
         temperature=response['main']['temp'],
@@ -39,7 +41,7 @@ def get_current_weather(location: Coordinate) -> Weather:
     )
 
 
-def get_weather_day_forecast(location: Coordinate, day: int) -> List[Weather]:
+def get_weather_day_forecast(location: Coordinate) -> List[Weather]:
     """Returns a weather forecast for specific daytime of next 5 days"""
 
     url = 'https://api.openweathermap.org/data/2.5/forecast'
@@ -79,4 +81,3 @@ def _get_openweather_response_json(url, params: dict) -> dict:
     response = requests.get(url, params=params).json()
 
     return response
-
